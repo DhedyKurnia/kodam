@@ -132,10 +132,10 @@ export default {
       }
 
       if (url.pathname.startsWith("/sub")) {
-        return Response.redirect(SUB_PAGE_URL + `?host=${APP_DOMAIN}`, 301);
-      } else if (url.pathname.startsWith("/check")) {
-        const target = url.searchParams.get("target").split(":");
-        const result = await checkPrxHealth(target[0], target[1] || "443");
+        const page = url.pathname.match(/^\/sub\/(\d+)$/);
+        const pageIndex = parseInt(page ? page[1] : "0");
+        const hostname = request.headers.get("Host");
+
 
         return new Response(JSON.stringify(result), {
           status: 200,
